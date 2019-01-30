@@ -113,8 +113,7 @@
 		249449F021FFF0360006CCC0 /* NewsArticles */ = {
 			isa = PBXGroup;
 			children = (
-				24944A36220089D90006CCC0 /* Router */,
-				24944A2D220082800006CCC0 /* EndPoints */,
+				D722EDCF220243D600356750 /* Network */,
 				24944A2A220080DF0006CCC0 /* Protocols */,
 				24944A2721FFF3410006CCC0 /* Model */,
 				24944A2221FFF2800006CCC0 /* API */,
@@ -211,6 +210,15 @@
 				24944A39220097EB0006CCC0 /* NewsRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		D722EDCF220243D600356750 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				24944A36220089D90006CCC0 /* Router */,
+				24944A2D220082800006CCC0 /* EndPoints */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

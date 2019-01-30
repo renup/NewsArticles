@@ -8,16 +8,44 @@
 
 import UIKit
 
+final class NewsCell: UITableViewCell {
+    
+    @IBOutlet weak var publisher: UILabel!
+    @IBOutlet weak var newsTitle: UILabel!
+    
+    func configureCell(newsItem: News) {
+        newsTitle.text = newsItem.title
+        publisher.text = newsItem.publisher
+    }
+    
+}
+
 class NewsArticlesTableViewController: UITableViewController {
+    
+    struct Constants {
+        static let cellIdentifier = "newsCell"
+    }
+    
+    var newsItems: [News] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         NewsArticlesViewModel.fetchNewsArticles { (newsInfo, error) in
-            if error != nil {
-                print("Error - \(String(describing: error?.localizedDescription))")
+            DispatchQueue.main.async {[weak self] in
+                guard let `self` = self else { return }
+                if error != nil {
+                    print("Error - \(String(describing: error?.localizedDescription))")
+                } else {
+                    guard let news = newsInfo?.items?.result else { return }
+                    self.newsItems = news
+                }
             }
-                print("newsInfo = \(String(describing: newsInfo?.items?.result?.first?.publisher))")
+            
         }
         
 //        APIProcessor.getNewsArticlesList { (newsInfo, error) in
@@ -30,12 +58,16 @@ class NewsArticlesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return 0
+       return newsItems.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! NewsCell
+        cell.configureCell(newsItem: newsItems[indexPath.row])
+        return cell
     }
+    
+    
 
 }
 
