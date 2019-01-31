@@ -76,6 +76,9 @@ class NewsArticlesTableViewController: UITableViewController {
             
         }
         
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 110
+        
 //        APIProcessor.getNewsArticlesList { (newsInfo, error) in
 //            if error != nil {
 //                print("Error - \(String(describing: error?.localizedDescription))")
