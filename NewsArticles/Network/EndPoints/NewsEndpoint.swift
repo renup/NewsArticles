@@ -43,8 +43,10 @@ enum NewsEndpoint: APIConfiguration {
         case .newsThumbnail(_):
             return []
         case .moreNews(let uuidList):
-            let uuidString = uuidList.reduce( ",", + )
-            let uuidQuery = URLQueryItem(name: "uuid", value: uuidString)
+            var uuidString = uuidList.map{ $0 + "," }.reduce("", +)
+            uuidString.removeLast()
+            
+            let uuidQuery = URLQueryItem(name: "uuids", value: uuidString)
             return [uuidQuery]
         }
         

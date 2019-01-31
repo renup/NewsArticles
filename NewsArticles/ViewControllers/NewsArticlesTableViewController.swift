@@ -12,15 +12,17 @@ class NewsArticlesTableViewController: UITableViewController {
     
     struct Constants {
         static let cellIdentifier = "newsCell"
+        static let pageSize = 15
     }
     
+    var uuidIndex = 0
     var newsItems: [News] = [] {
         didSet {
             tableView.reloadData()
         }
     }
     
-    var uuids: [String] = []
+    var uuids = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,13 +48,34 @@ class NewsArticlesTableViewController: UITableViewController {
     }
     
     private func getMoreNews() {
-        
+        var subArray = [String]()
+        var toLimit = (Constants.pageSize + uuidIndex)
+        if toLimit > uuids.count {
+            toLimit = uuids.count - toLimit
+        }
+        for i in stride(from: uuidIndex, to: toLimit , by: 1) {
+            subArray.append(uuids[i])
+        }
+        if subArray.isEmpty { return }
+        NewsArticlesViewModel.fetchMoreNews(uuidList: subArray) { (newsInfo, error) in
+            DispatchQueue.main.async {[weak self] in
+                guard let `self` = self else { return }
+                if error != nil {
+                    print("Error - \(String(describing: error?.localizedDescription))")
+                } else {
+                    guard let news = newsInfo?.items?.result else { return }
+                    self.newsItems.append(contentsOf: news)
+                    self.uuidIndex += news.count - 1
+                }
+            }
+        }
     }
     
 }
 
 //MARK: UITableViewDataSource methods
 extension NewsArticlesTableViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return newsItems.count
     }
@@ -62,5 +85,17 @@ extension NewsArticlesTableViewController {
         cell.configureCell(newsItem: newsItems[indexPath.row])
         return cell
     }
+}
+
+//MARK: UITableViewDelegate methods
+extension NewsArticlesTableViewController {
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == newsItems.count { //we've reached to the end of the tableview
+            if uuidIndex > 10 { uuidIndex += 15 }
+            getMoreNews()
+        }
+    }
+    
 }
 
