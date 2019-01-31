@@ -7,62 +7,44 @@
 //
 
 import Foundation
-
-public enum Result<Value> {
-    case success(Value)
-    case failure(Error)
-    
-    /// Returns `true` if the result is a success, `false` otherwise.
-    public var isSuccess: Bool {
-        switch self {
-        case .success:
-            return true
-        case .failure:
-            return false
-        }
-    }
-    
-    /// Returns `true` if the result is a failure, `false` otherwise.
-    public var isFailure: Bool {
-        return !isSuccess
-    }
-    
-    /// Returns the associated value if the result is a success, `nil` otherwise.
-    public var value: Value? {
-        switch self {
-        case .success(let value):
-            return value
-        case .failure:
-            return nil
-        }
-    }
-    
-    /// Returns the associated error value if the result is a failure, `nil` otherwise.
-    public var error: Error? {
-        switch self {
-        case .success:
-            return nil
-        case .failure(let error):
-            return error
-        }
-    }
-}
+import UIKit
 
 protocol APIRouter {
     static func performRequest<T: Decodable>(route: APIConfiguration, completion: @escaping ((T?, Error?) -> Void)) -> URLSessionTask?
+    
+    static func performRequestForImages(route: APIConfiguration, completion: @escaping ImageResponse) -> URLSessionTask?
 }
 
 extension APIRouter {
     
-    static func performRequest<T: Decodable>(route: APIConfiguration, completion: @escaping ((T?, Error?) -> Void)) -> URLSessionTask? {
-        
+    private static func  getURL(route: APIConfiguration) -> URL? {
         let path = route.path
         
         guard var urlComponents = URLComponents(string: path) else { return nil }
         urlComponents.queryItems = route.parameters
         
         guard let url = urlComponents.url else { return nil }
+        return url
+    }
+    static func performRequestForImages(route: APIConfiguration, completion: @escaping ImageResponse) -> URLSessionTask? {
+       
+        guard let url = getURL(route: route) else { return nil }
         
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if error != nil {
+                completion(nil, error)
+            } else if let dt = data, let img = UIImage(data: dt) {
+                completion(img, nil)
+            }
+        }
+        dataTask.resume()
+        return dataTask
+    }
+    
+    static func performRequest<T: Decodable>(route: APIConfiguration, completion: @escaping ((T?, Error?) -> Void)) -> URLSessionTask? {
+        
+        guard let url = getURL(route: route) else { return nil }
+
         let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             if let dt = data {
                print( String(describing: dt))

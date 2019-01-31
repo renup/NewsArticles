@@ -11,6 +11,7 @@ import Foundation
 enum NewsEndpoint: APIConfiguration {
     
     case newsSearch()
+    case newsThumbnail(imageString: String)
     
     struct Constants {
         static let sportsNews = "sports_news"
@@ -20,6 +21,8 @@ enum NewsEndpoint: APIConfiguration {
         switch self {
         case .newsSearch():
             return NetworkHelper.shared.baseURLString + Constants.sportsNews
+        case .newsThumbnail(let imageString):
+            return imageString
         }
     }
     
@@ -32,7 +35,10 @@ enum NewsEndpoint: APIConfiguration {
             let regionQuery = URLQueryItem(name: "region", value: "US")
             let langQuery = URLQueryItem(name: "lang", value: "en-US")
             return [leaguesquery, streamTypeQuery, countQuery, regionQuery, langQuery]
+        case .newsThumbnail(_):
+            return []
         }
+        
     }    
     
 }

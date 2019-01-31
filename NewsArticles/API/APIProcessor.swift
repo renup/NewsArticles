@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias NewsResponse = (_ news: NewsInfo?, _ error: Error?) -> Void
-
 final class APIProcessor {
     struct Constants {
         static let baseURLString = "http://doubleplay-sports-yql.media.yahoo.com/v3/sports_news?leagues=sports&stream_type=headlines&count=10&region=US&lang=en-US"

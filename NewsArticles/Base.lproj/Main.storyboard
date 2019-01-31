@@ -60,6 +60,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="newsThumbnailImageView" destination="XZs-Tr-y7r" id="fh3-2h-LP2"/>
                                     <outlet property="newsTitle" destination="zpV-fw-6Jv" id="IJW-89-KQK"/>
                                     <outlet property="publisher" destination="vm2-A0-5fW" id="kWM-6l-4Xc"/>
                                 </connections>
