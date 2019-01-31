@@ -19,4 +19,10 @@ final class NewsArticlesViewModel: APIRouter {
     static func fetchThumbnailImage(imageURLString: String, completion: @escaping ImageResponse) -> URLSessionTask? {
         return NewsRouter.getThumbnailImage(imageString: imageURLString, completion: completion)
     }
+    
+    @discardableResult
+    static func fetchMoreNews(uuidList: [String], completion: @escaping NewsResponse) -> URLSessionTask? {
+        return NewsRouter.getMoreNews(uuidList:uuidList, completion: completion)
+    }
+    
 }

@@ -20,11 +20,16 @@ class NewsArticlesTableViewController: UITableViewController {
         }
     }
     
-    var uuids: [UUIDList] = []
+    var uuids: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getNews()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 110
+    }
+    
+    private func getNews() {
         NewsArticlesViewModel.fetchNewsArticles { (newsInfo, error) in
             DispatchQueue.main.async {[weak self] in
                 guard let `self` = self else { return }
@@ -33,27 +38,29 @@ class NewsArticlesTableViewController: UITableViewController {
                 } else {
                     guard let news = newsInfo?.items?.result else { return }
                     self.newsItems = news
-                    guard let uuids = newsInfo?.more?.result else { return }
-                    self.uuids = uuids
+                    guard let uuidResult = newsInfo?.more?.result else { return }
+                    self.uuids = uuidResult.compactMap { $0.uuid }
                 }
             }
         }
-        
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 110
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return newsItems.count
+    private func getMoreNews() {
+        
     }
+    
+}
 
+//MARK: UITableViewDataSource methods
+extension NewsArticlesTableViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return newsItems.count
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier) as! NewsCell
         cell.configureCell(newsItem: newsItems[indexPath.row])
         return cell
     }
-    
-    
-
 }
 

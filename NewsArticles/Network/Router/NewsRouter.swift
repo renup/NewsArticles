@@ -23,4 +23,9 @@ final class NewsRouter: APIRouter {
         return performRequestForImages(route: NewsEndpoint.newsThumbnail(imageString: imageString), completion: completion)
     }
     
+    @discardableResult
+    static func getMoreNews(uuidList: [String], completion: @escaping NewsResponse) -> URLSessionTask? {
+       return performRequest(route: NewsEndpoint.moreNews(uuidList: uuidList), completion: completion)
+    }
+    
 }
