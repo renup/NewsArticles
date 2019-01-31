@@ -10,6 +10,15 @@ import Foundation
 
 struct NewsInfo: Decodable {
     var items: NewsItems?
+    var more: More?
+}
+
+struct More: Decodable {
+    var result: [UUIDList]?
+}
+
+struct UUIDList: Decodable {
+    var uuid: String?
 }
 
 struct NewsItems: Decodable {

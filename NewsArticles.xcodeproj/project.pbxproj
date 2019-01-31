@@ -22,6 +22,7 @@
 		24944A35220085EF0006CCC0 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24944A34220085EF0006CCC0 /* NetworkHelper.swift */; };
 		24944A38220089EC0006CCC0 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24944A37220089EC0006CCC0 /* APIRouter.swift */; };
 		24944A3A220097EB0006CCC0 /* NewsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24944A39220097EB0006CCC0 /* NewsRouter.swift */; };
+		D722EDD12202784300356750 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722EDD02202784300356750 /* NewsCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		24944A34220085EF0006CCC0 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		24944A37220089EC0006CCC0 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		24944A39220097EB0006CCC0 /* NewsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRouter.swift; sourceTree = "<group>"; };
+		D722EDD02202784300356750 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 		24944A2021FFF2720006CCC0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D722EDD02202784300356750 /* NewsCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				24944A2921FFF3510006CCC0 /* News.swift in Sources */,
 				24944A38220089EC0006CCC0 /* APIRouter.swift in Sources */,
 				24944A2421FFF2E50006CCC0 /* NewsArticlesViewModel.swift in Sources */,
+				D722EDD12202784300356750 /* NewsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
