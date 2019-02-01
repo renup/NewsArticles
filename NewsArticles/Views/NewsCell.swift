@@ -17,6 +17,9 @@ final class NewsCell: UITableViewCell {
     var sessionTask: URLSessionTask?
     var cache = NSCache<NSString, UIImage>()
     
+    /// Configures the cell
+    ///
+    /// - Parameter newsItem: news object to populate the data to be displayed in the cell
     func configureCell(newsItem: News) {
         newsTitle.text = newsItem.title
         publisher.text = newsItem.publisher

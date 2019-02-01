@@ -11,5 +11,4 @@ import Foundation
 protocol APIConfiguration {
     var path: String { get }
     var parameters: [URLQueryItem] { get }
-//    func buildRequest(url: URL) -> URLSessionDataTask?
 }

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+///View model layer that communicates with view layer and the API layer
 final class NewsArticlesViewModel: APIRouter {
     
     @discardableResult

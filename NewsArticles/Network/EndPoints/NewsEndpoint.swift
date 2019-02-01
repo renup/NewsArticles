@@ -15,6 +15,7 @@ enum NewsEndpoint: APIConfiguration {
     case moreNews(uuidList: [String])
     
     struct Constants {
+        static let baseURLString = "http://doubleplay-sports-yql.media.yahoo.com/v3/"
         static let sportsNews = "sports_news"
         static let newsItems = "news_items"
     }
@@ -22,12 +23,11 @@ enum NewsEndpoint: APIConfiguration {
     var path: String {
         switch self {
         case .newsSearch():
-            return NetworkHelper.shared.baseURLString + Constants.sportsNews
+            return Constants.baseURLString + Constants.sportsNews
         case .newsThumbnail(let imageString):
             return imageString
         case .moreNews(_):
-            return NetworkHelper.shared.baseURLString + Constants.newsItems
-
+            return Constants.baseURLString + Constants.newsItems
         }
     }
     

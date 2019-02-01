@@ -8,11 +8,14 @@
 
 import UIKit
 
-class NewsArticlesTableViewController: UITableViewController {
+//This class displays the list of news articles
+final class NewsArticlesTableViewController: UITableViewController {
     
     struct Constants {
         static let cellIdentifier = "newsCell"
         static let pageSize = 15
+        static let errorTitle = "Failed to get News List"
+        static let errorMessage = "Oops! something went wrong when trying to get news list. Please check back again in a bit"
     }
     
     var uuidIndex = 0
@@ -33,12 +36,13 @@ class NewsArticlesTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 110
     }
     
+    ///Fetches the first batch of news list
     private func getNews() {
         NewsArticlesViewModel.fetchNewsArticles { (newsInfo, error) in
             DispatchQueue.main.async {[weak self] in
                 guard let `self` = self else { return }
                 if error != nil {
-                    print("Error - \(String(describing: error?.localizedDescription))")
+                    self.showError(Constants.errorTitle, message: Constants.errorMessage)
                 } else {
                     guard let news = newsInfo?.items?.result else { return }
                     self.newsItems = news
@@ -49,6 +53,7 @@ class NewsArticlesTableViewController: UITableViewController {
         }
     }
     
+    ///Fetches more news when the user scrolls to the end of existing batch of news list
     private func getMoreNews() {
         var subArray = [String]()
         var toLimit = (Constants.pageSize + uuidIndex)
@@ -63,7 +68,7 @@ class NewsArticlesTableViewController: UITableViewController {
             DispatchQueue.main.async {[weak self] in
                 guard let `self` = self else { return }
                 if error != nil {
-                    print("Error - \(String(describing: error?.localizedDescription))")
+                    self.showError(Constants.errorTitle, message: Constants.errorMessage)
                 } else {
                     guard let news = newsInfo?.items?.result else { return }
                     self.newsItems.append(contentsOf: news)
@@ -71,6 +76,10 @@ class NewsArticlesTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    private func handleMoreNews() {
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -108,7 +117,6 @@ extension NewsArticlesTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedNews = newsItems[indexPath.row]
         performSegue(withIdentifier: "newsListToDetail", sender: nil)
-
     }
     
 }

@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-class NewsDetailViewController: UIViewController {    
+//This class displays the details of the selected news article in the list
+final class NewsDetailViewController: UIViewController {
     var news: News?
     
     @IBOutlet weak var newsDetailTableView: UITableView!
@@ -20,6 +21,7 @@ class NewsDetailViewController: UIViewController {
         setUpViews()
     }
     
+    ///Sets up the initial views state
     private func setUpViews() {
         newsDetailTableView.rowHeight = UITableView.automaticDimension
         newsDetailTableView.estimatedRowHeight = 500
@@ -29,6 +31,7 @@ class NewsDetailViewController: UIViewController {
     
 }
 
+///MARK: UITableViewDataSource methods
 extension NewsDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

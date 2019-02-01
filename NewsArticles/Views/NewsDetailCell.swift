@@ -21,6 +21,11 @@ final class NewsDetailCell: UITableViewCell {
         self.textLabel?.lineBreakMode = .byWordWrapping
     }
     
+    /// Configures the detail cell
+    ///
+    /// - Parameters:
+    ///   - newsDetails: news object which is used to populate the data in the cell
+    ///   - indexpath: indexPath of the cell
     func configure(newsDetails: News, indexpath: IndexPath) {
         guard let celltype = CellType(rawValue: indexpath.row) else { return }
         

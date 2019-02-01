@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+///Protocol that declares the methods for performing actual requests
 protocol APIRouter {
     static func performRequest<T: Decodable>(route: APIConfiguration, completion: @escaping ((T?, Error?) -> Void)) -> URLSessionTask?
     
@@ -17,6 +18,10 @@ protocol APIRouter {
 
 extension APIRouter {
     
+    /// Builds the http url using parameters
+    ///
+    /// - Parameter route: request path for the url
+    /// - Returns: returns the URL for request
     private static func  getURL(route: APIConfiguration) -> URL? {
         let path = route.path
         
@@ -26,6 +31,13 @@ extension APIRouter {
         guard let url = urlComponents.url else { return nil }
         return url
     }
+    
+    /// Preforms request to fetch images
+    ///
+    /// - Parameters:
+    ///   - route: request path for getting images
+    ///   - completion: completion handler for the received images or error
+    /// - Returns: returns the session task to the calling method
     static func performRequestForImages(route: APIConfiguration, completion: @escaping ImageResponse) -> URLSessionTask? {
        
         guard let url = getURL(route: route) else { return nil }
@@ -41,6 +53,12 @@ extension APIRouter {
         return dataTask
     }
     
+    /// Performs actual request and creates model objects from resulting data
+    ///
+    /// - Parameters:
+    ///   - route: path for api request
+    ///   - completion: completion handler for the result received
+    /// - Returns: session task back to calling method
     static func performRequest<T: Decodable>(route: APIConfiguration, completion: @escaping ((T?, Error?) -> Void)) -> URLSessionTask? {
         
         guard let url = getURL(route: route) else { return nil }
