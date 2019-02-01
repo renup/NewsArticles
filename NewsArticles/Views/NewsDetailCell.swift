@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+enum CellType: Int {
+    case title, content
+}
+
 final class NewsDetailCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
@@ -18,18 +22,20 @@ final class NewsDetailCell: UITableViewCell {
     }
     
     func configure(newsDetails: News, indexpath: IndexPath) {
+        guard let celltype = CellType(rawValue: indexpath.row) else { return }
         
-        if indexpath.row == 0 { //label
+        switch celltype {
+        case .title:
             if newsDetails.title?.count == 0  {
                 self.textLabel?.text = "News Detail"
             }else {
                 self.textLabel?.text = newsDetails.title
             }
-        } else {
+        case .content:
             if newsDetails.content?.count == 0 {
                 self.textLabel?.text = "Sorry this news does not have any content to display"
             } else {
-                self.textLabel?.text = newsDetails.content
+                self.textLabel?.text = newsDetails.content?.htmlToString
             }
         }
     }
