@@ -23,9 +23,11 @@ class NewsArticlesTableViewController: UITableViewController {
     }
     
     var uuids = [String]()
-
+    var selectedNews: News = News()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "News List"
         getNews()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 110
@@ -71,6 +73,11 @@ class NewsArticlesTableViewController: UITableViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let vc = segue.destination as? NewsDetailViewController else { return }
+        vc.news = selectedNews
+    }
+    
 }
 
 //MARK: UITableViewDataSource methods
@@ -95,6 +102,13 @@ extension NewsArticlesTableViewController {
             if uuidIndex > 10 { uuidIndex += 15 }
             getMoreNews()
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        selectedNews = newsItems[indexPath.row]
+        performSegue(withIdentifier: "newsListToDetail", sender: nil)
+
     }
     
 }
