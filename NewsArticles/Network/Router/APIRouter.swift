@@ -65,7 +65,9 @@ extension APIRouter {
 
         let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             if let dt = data {
+                #if DEBUG
                print( String(describing: dt))
+                #endif
                 do{
                     let result = try JSONDecoder().decode(T.self, from: dt)
                     completion(result, nil)
