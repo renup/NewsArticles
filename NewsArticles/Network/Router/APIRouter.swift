@@ -72,6 +72,7 @@ extension APIRouter {
                     let result = try JSONDecoder().decode(T.self, from: dt)
                     completion(result, nil)
                 } catch(let error) {
+                    print("error = \(error)")
                     completion(nil, error)
                 }
             } else {

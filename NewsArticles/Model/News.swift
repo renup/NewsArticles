@@ -30,6 +30,7 @@ struct News: Decodable {
     var publisher: String?
     var main_image: MainImage?
     var content: String?
+    var published_at: String?
 }
 
 struct MainImage: Decodable {
